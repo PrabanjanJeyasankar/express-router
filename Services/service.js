@@ -1,61 +1,59 @@
 const express = require('express')
 const router = express.Router()
-let listOfServices = [
+const bugFixingRouter = require('./bugFixingRouter.js')
+const developmentRouter = require('./developmentRouter.js')
 
-    {
-    
-    "id":1,
-    
-     "name":"Web Development"
-    
-    } ,
-    
-    {
-    
-    "id":2,
-    
-    "name":"bug fixing"
-    
-    }
-    
-    ]
-    
-      
-    
-    router.get('/', (request,response) => {
-    
+router.get('/', (request,response) => {
     response.send("Service Page")
-    
     })
-    
-      
-    
-    router.get('/:id', (request,response) =>{
-    
-    const pageId = Number(request.params.id)
-    
-    const serviceId = listOfServices.find((service) => service.id ===  pageId )
-    
-    console.log(serviceId)
-    
-    console.log(pageId)
-    
-    if(!serviceId)
-    
+
+    router.get('/:id([0-9]{1})', (request,response) =>{
+        response.json(`${request.service.name}`)
+    // const pageId = Number(request.params.id)
+    // const serviceId = listOfServices.find((service) => service.id === pageId )
+    // console.log(serviceId)
+    // console.log(pageId)
+    // if(!serviceId)
+    //     {
+    //     response.send("Id Not Found")
+    //     }
+    // else
+    //     {
+    //         response.json(serviceId)
+    //     }
+    })
+
+
+const services = [
     {
-    response.send("Id Not Found")
-    
+         name :"Web Development"
+    } ,
+    {
+        name :"bug fixing"
+    },
+    {
+        name :"Digital Marketing"
+    },
+    {
+        name :"Network Service"
+    },
+    {
+        name:"Mobile App Development"
+    },
+    {
+        name:"SaaS"
     }
-    
-    else
-    
-        {
-    
-            response.json(serviceId)
-    
-    }
-    
-      
-    
-    })
+    ]
+
+router.param('id',(request,response,next,id)=>{
+    console.log(id)
+    request.service = services[id]
+    next()
+})
+
+
+
+router.use('/bugFixingRouter',bugFixingRouter)
+router.use('/developmentRouter',developmentRouter)
+
 module.exports = router
