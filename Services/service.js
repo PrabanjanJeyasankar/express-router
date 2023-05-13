@@ -19,7 +19,7 @@ router.get('/', (request,response) => {
     //     }
     // else
     //     {
-    //         response.json(serviceId)
+    //         response.send(serviceId)
     //     }
     })
 

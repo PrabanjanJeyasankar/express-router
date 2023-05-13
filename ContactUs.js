@@ -3,6 +3,6 @@ const router = express.Router()
 
 
 router.get('/', (request,response) => {
-    response.send("About Page")
+    response.send("Contact Us")
     })
 module.exports = router
